@@ -19,38 +19,36 @@ const votes = [
 	['o5'],
 	['o6','o5']
 ]
-const seats = 3
+const seats = 2
 
 
 const countVotes = ({ votes, options, seats }) => {
-  const count =  votes
-    .map((vote) => vote.filter((option) => options.includes(option)))
+  const filteredVotes = votes.map((vote) => vote.filter((option) => options.includes(option)))
+  const count = filteredVotes
     .reduce((acc, vote) => {
       acc[vote[0]] = (acc[vote[0]] || 0) + 1
       return acc
     }, {})
-
-  return levelCount({
-    votes: votes.map((vote) => vote.filter((option) => options.includes(option))),
+  return spreadVotes({
+    votes: filteredVotes,
     count,
     seats
   })
 }
 
-const levelCount = ({ votes, count, seats }) => {
-    const maxVotes =votes.length / seats
+const spreadVotes = ({ votes, count, seats }) => {
+    const maxVotes = votes.length / seats
     for (const option in count) {
       let diff = count[option] - maxVotes
-      console.log(option, count[option] , maxVotes, diff)
       if (diff > 0) {
         count[option] = maxVotes
         for (const options in votes) {
             if ((options[0] === option) && options.length > 1) {
-            count[options[1]] = Math.floor(1 + count[options[1]] || 0)
+            count[options[1]] = 1 + (count[options[1]] || 0)
             diff = diff - 1
           }
         }
-        return levelCount({ votes, count, seats })
+        return spreadVotes({ votes, count, seats })
       }
     }
     return count
