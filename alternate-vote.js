@@ -7,7 +7,7 @@
 const options = ['o1','o2','o3','o4','o5','o6']
 const votes = [
 	['o1','o2','o5'],
-    ['o1','o3','o4'],
+  ['o1','o3','o4'],
 	['o1'],
 	['o1'],
 	['o2','o5','o1'],
@@ -20,7 +20,6 @@ const votes = [
 	['o6','o5']
 ]
 
-let winner
 while (true) {
 	const count = votes
 		.map((vote) => vote.filter((option) => options.includes(option)))
@@ -30,10 +29,9 @@ while (true) {
 		}, {})
 
 	options.sort((first, second) => (count[second] || 0) - (count[first] || 0))
-	winner = options[0]
 	options.pop()
 
-	if (options.length === 0) break
+	if (options.length === 1) break
 }
 
-console.log({ winner })
+console.log({ options })
