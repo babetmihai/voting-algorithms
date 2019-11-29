@@ -4,7 +4,7 @@
 	https://www.electoral-reform.org.uk/voting-systems/types-of-voting-system/alternative-vote/
 */
 
-const options = ['o1','o2','o3','o4','o5','o6']
+const options = ['o1','o2','o3','o4','o5','o6', 'o7']
 const votes = [
 	['o1','o2','o5'],
   ['o1','o3','o4'],
@@ -19,7 +19,7 @@ const votes = [
 	['o5'],
 	['o6','o5']
 ]
-const seats = 1
+const seats = 6
 
 
 const countVotes = ({ votes, options, seats }) => {
@@ -40,16 +40,16 @@ const countVotes = ({ votes, options, seats }) => {
 const levelCount = ({ votes, count, seats }) => {
     const maxVotes =votes.length / seats
     for (const option in count) {
-      const diff = Math.floor(count[option] - maxVotes)
+      const diff = count[option] - maxVotes
       console.log(option, count[option] , maxVotes, diff)
       if (diff > 1) {
         count[option] = maxVotes
-        votes.filter((options) => {
-          if ((options[0] === option) && options.length > 1) {
+        for (const options in votes) {
+            if ((options[0] === option) && options.length > 1) {
             count[options[1]] = Math.floor(diff + count[options[1]] || 0)
             return levelCount({ votes, count, seats })
           }
-        })
+        }
       }
     }
     return count
