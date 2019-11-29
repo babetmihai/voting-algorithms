@@ -10,25 +10,29 @@ const votes = [
   ['o1','o3','o4'],
 	['o1'],
 	['o1'],
-	['o2','o5','o1'],
-	['o2','o1'],
-	['o2','o5','oo', 'o4'],
+	['o1','o5'],
+	['o1',],
+	['o1','o5','oo', 'o4'],
 	['o3','o5'],
 	['o4','o5'],
 	['o5'],
 	['o5'],
 	['o6','o5']
 ]
-const seats = 2
+const seats = 3
 
 
 const countVotes = ({ votes, options, seats }) => {
-  const filteredVotes = votes.map((vote) => vote.filter((option) => options.includes(option)))
+  const filteredVotes = votes
+    .map((vote) => {
+      return vote.filter((option) => options.includes(option))
+    })
   const count = filteredVotes
     .reduce((acc, vote) => {
       acc[vote[0]] = (acc[vote[0]] || 0) + 1
       return acc
     }, {})
+    
   return spreadVotes({
     votes: filteredVotes,
     count,
@@ -37,21 +41,21 @@ const countVotes = ({ votes, options, seats }) => {
 }
 
 const spreadVotes = ({ votes, count, seats }) => {
-    const maxVotes = votes.length / seats
-    for (const option in count) {
-      let diff = count[option] - maxVotes
-      if (diff > 0) {
-        count[option] = maxVotes
-        for (const options in votes) {
-            if ((options[0] === option) && options.length > 1) {
-            count[options[1]] = 1 + (count[options[1]] || 0)
-            diff = diff - 1
-          }
+  const maxVotes = votes.length / seats
+  for (const option in count) {
+    let diff = count[option] - maxVotes
+    if (diff > 0) {
+      count[option] = maxVotes
+      for (const options of votes) {
+          if ((options[0] === option) && options.length > 1) {
+          count[options[1]] = 1 + (count[options[1]] || 0)
+          diff = diff - 1
         }
-        return spreadVotes({ votes, count, seats })
       }
+      return spreadVotes({ votes, count, seats })
     }
-    return count
+  }
+  return count
 }
 
 
