@@ -4,6 +4,7 @@
 	https://www.electoral-reform.org.uk/voting-systems/types-of-voting-system/alternative-vote/
 */
 
+const seats = 3
 const options = ['o1','o2','o3','o4','o5','o6', 'o7']
 const votes = [
 	['o1','o2','o5'],
@@ -19,8 +20,6 @@ const votes = [
 	['o5'],
 	['o6','o5']
 ]
-const seats = 3
-
 
 const countVotes = ({ votes, options, seats }) => {
   const filteredVotes = votes
@@ -57,8 +56,6 @@ const spreadVotes = ({ votes, count, seats }) => {
   }
   return count
 }
-
-
 
 while (true) {
   const count = countVotes({ votes, options, seats })
