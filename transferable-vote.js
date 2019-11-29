@@ -19,7 +19,7 @@ const votes = [
 	['o5'],
 	['o6','o5']
 ]
-const seats = 6
+const seats = 3
 
 
 const countVotes = ({ votes, options, seats }) => {
@@ -40,16 +40,17 @@ const countVotes = ({ votes, options, seats }) => {
 const levelCount = ({ votes, count, seats }) => {
     const maxVotes =votes.length / seats
     for (const option in count) {
-      const diff = count[option] - maxVotes
+      let diff = count[option] - maxVotes
       console.log(option, count[option] , maxVotes, diff)
-      if (diff > 1) {
+      if (diff > 0) {
         count[option] = maxVotes
         for (const options in votes) {
             if ((options[0] === option) && options.length > 1) {
-            count[options[1]] = Math.floor(diff + count[options[1]] || 0)
-            return levelCount({ votes, count, seats })
+            count[options[1]] = Math.floor(1 + count[options[1]] || 0)
+            diff = diff - 1
           }
         }
+        return levelCount({ votes, count, seats })
       }
     }
     return count
