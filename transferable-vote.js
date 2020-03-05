@@ -1,6 +1,6 @@
 
 /*
-	Alternate voting algorithm
+	Transferable voting algorithm
 	https://www.electoral-reform.org.uk/voting-systems/types-of-voting-system/alternative-vote/
 */
 
